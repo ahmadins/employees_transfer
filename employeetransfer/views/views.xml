@@ -1,0 +1,123 @@
+<odoo>
+  <data>
+          <record model="ir.actions.act_window" id="action_hr_trans">
+            <field name="name">Employee Transfer</field>
+            <field name="res_model">employee.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+
+
+       <record id="employee_transfer_form_view" model="ir.ui.view">
+            <field name="name">employee.transfer.form.view</field>
+            <field name="model">employee.transfer</field>
+            <field name="arch" type="xml">
+            <form>
+                 <header>
+                        <button string="Confirm" name="get_confirm" states="draft" type="object" class="oe_highlight"/>
+                        <button string="Approve by Department Manager" name="get_apprv_dept_manager" states="confirm" type="object" class="oe_highlight"/>
+                        <button string="Approve by HR Manager" name="get_apprv_hr_manager" states="approved_dept_manager" type="object" class="oe_highlight"/>
+                        <button string="Approve by General Manager" name="get_apprv_general_manager" states="approved_hr_manager" type="object"  class="oe_highlight"/>
+                        <button string="Done" name="get_done" states="approved_general_manager" type="object" />
+                        <button string="Reject" name="get_reject" states="confirm,approved_dept_manager,approved_hr_manager" type="object" />
+                        <button string="Cancel" name="exit_cancel" states="draft" type="object" />
+                        <button string="Set To Draft" name="request_set" states="reject" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved_dept_manager,approved_hr_manager,approved_general_manager,done" statusbar_colors='{"confirm":"blue",validate":"green","cancel":"red"}' colspan="2"/>
+                 </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h2>
+                             <group>
+                                <group>
+                                    <field name="name" />
+                                    <field name="request_date" />
+                                    <field name="requested_by" />
+                                </group>
+                                <group/>
+                             </group>
+                            </h2>
+                        </div>
+                        <group>
+                                <field name="employee_number"/>
+                                <field name="employee_id" />
+                                <field name="from_department_id" />
+                                <field name="job_id" />
+                        </group>
+                        <group>
+                                <field name="transfer_date" />
+                                <field name="to_department_id" />
+                                <field name="job_id" />
+                        </group>
+                         <group>
+                                <field name="transfer_note" />
+                        </group>
+                    </sheet>
+            </form>
+            </field>
+        </record>
+
+       <record id="employee_transfer_tree_view" model="ir.ui.view">
+            <field name="name">employee.transfer.tree.view</field>
+            <field name="model">employee.transfer</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="request_date" />
+                    <field name="requested_by" />
+                    <field name="employee_number"/>
+                    <field name="employee_id" />
+                    <field name="from_department_id" />
+                    <field name="job_id" />
+                    <field name="transfer_date" />
+                    <field name="to_department_id" />
+                    <field name="transfer_note" />
+                </tree>
+            </field>
+        </record>
+
+
+      <record id="employee_transfer_search_view" model="ir.ui.view">
+            <field name="name">employee.transfer.search.view</field>
+            <field name="model">employee.transfer</field>
+            <field name="arch" type="xml">
+                <search string="Hr exit" >
+                    <field name="name" />
+                    <field name="request_date" />
+                    <field name="requested_by" />
+                    <field name="employee_number"/>
+                    <field name="employee_id" />
+                    <field name="from_department_id" />
+                    <field name="job_id" />
+                    <field name="transfer_date" />
+                    <field name="to_department_id" />
+                    <field name="transfer_note" />
+                </search>
+            </field>
+        </record>
+
+
+    <record model="ir.ui.view" id="hr_employee_transfer_inherit_form_view">
+        <field name="name">hr.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="transfer_view" type="object" icon="fa-list-ol">
+                    <field string="Transfers History" name="transfer_count"  widget="statinfo" />
+                </button>
+            </div>
+        </field>
+    </record>
+
+
+
+
+
+
+      <menuitem name="Employee Transfer"  id="menu_open_trans" sequence="6" />
+      <menuitem id="Employee_Transfer" action="action_hr_trans" parent="menu_open_trans" sequence="11" />
+
+
+
+  </data>
+</odoo>
